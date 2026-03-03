@@ -1,6 +1,6 @@
 # Implementation Plan: firestore-type Library Completion + Samples
 
-> Authoritative design docs: [docs/firestore-object-toolkit-design.md](firestore-object-toolkit-design.md) and [docs/detailed-chat-docs/migration-philosphy.md](detailed-chat-docs/migration-philosphy.md).
+> Authoritative design docs: [docs/firestore-object-toolkit-design.md](firestore-object-toolkit-design.md) and [docs/detailed-chat-docs/migration-philosophy.md](detailed-chat-docs/migration-philosophy.md).
 > Agents must NOT invent public APIs, change architectural boundaries, or add Firebase imports outside `src/adapters/**`.
 
 ---
@@ -8,7 +8,7 @@
 ## Context
 The library has a solid core (types, migration, validation, timestamp helpers) but is blocked by unresolved merge conflicts in `package.json`, `tsconfig.json`, and `src/index.ts`. The adapter subpath exports exist as placeholder types only. No `samples/` directory exists. Tests are split across two incompatible test runners (Vitest + node:test).
 
-The detailed design docs (`design-chat.md`, `migration-philosphy.md`, `agent-guidance.md`) confirm:
+The detailed design docs (`design-chat.md`, `migration-philosophy.md`, `agent-guidance.md`) confirm:
 - Domain objects always use `Date`, never Firestore `Timestamp`
 - Timestamp conversion to/from Firestore `Timestamp` happens **only at the adapter boundary**
 - Migrations are pure functions — no side effects, no domain logic, no mutation of inputs
