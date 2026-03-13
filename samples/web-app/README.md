@@ -30,7 +30,13 @@ pnpm install
 
 ## Environment variables
 
-Create `samples/web-app/.env.local`:
+Start from the checked-in sample file and create your local file:
+
+```bash
+cp samples/web-app/.env.local.sample samples/web-app/.env.local
+```
+
+Then edit `samples/web-app/.env.local` (this file is gitignored):
 
 ```bash
 VITE_FIREBASE_API_KEY=demo-api-key
@@ -51,6 +57,15 @@ VITE_FIREBASE_EMULATOR_PORT=8080
 
 `VITE_USE_FIREBASE_EMULATOR` defaults to enabled in dev mode, but setting it explicitly is recommended.
 
+Required variables:
+
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_APP_ID`
+
+If any required value is missing, the app shows a configuration error in the UI with the missing variable names.
+
 ## Run with Firebase Emulator Suite
 
 1. Start Firestore emulator in your Firebase project directory:
@@ -62,8 +77,7 @@ firebase emulators:start --only firestore
 2. In another terminal, run the sample app:
 
 ```bash
-cd samples/web-app
-pnpm dev
+pnpm --dir samples/web-app dev
 ```
 
 3. Open the Vite URL and verify create/read/update/delete operations.
@@ -108,6 +122,7 @@ The script reads `samples/web-app/.env.local` when present, but also falls back 
 
 ## Files of interest
 
+- `.env.local.sample` env template committed to the repo
 - `src/lib/firestore.ts` Firebase app setup + emulator connection
 - `src/models/task.ts` shared model re-export (no duplicated migration logic)
 - `src/lib/taskAdapter.ts` Firestore/domain boundary

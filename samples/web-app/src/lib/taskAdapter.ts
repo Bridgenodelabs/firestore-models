@@ -15,7 +15,7 @@ import {
   type BrowserDocumentSnapshot,
 } from "firestore-type/adapters/firebase-client";
 
-import { tasksCollection } from "./firestore";
+import { firebaseConfigError, tasksCollection } from "./firestore";
 import {
   taskModel,
   type Task,
@@ -31,6 +31,18 @@ export interface CreateTaskInput {
   title: string;
   dueAt?: Date;
   priority: TaskPriority;
+}
+
+function getFirebaseConfigErrorMessage(): string {
+  return firebaseConfigError ?? "Firebase configuration is invalid";
+}
+
+function requireTasksCollection() {
+  if (tasksCollection === null) {
+    throw new Error(getFirebaseConfigErrorMessage());
+  }
+
+  return tasksCollection;
 }
 
 function snapshotToTask(
@@ -55,6 +67,16 @@ export function subscribeToTasks(
   onNext: (tasks: TaskWithId[]) => void,
   onError: (error: Error) => void,
 ): Unsubscribe {
+  if (tasksCollection === null) {
+    queueMicrotask(() => {
+      onError(new Error(getFirebaseConfigErrorMessage()));
+    });
+
+    return () => {
+      // No-op unsubscribe for invalid config mode.
+    };
+  }
+
   return onSnapshot(
     query(tasksCollection),
     (snapshot) => {
@@ -81,17 +103,19 @@ export async function createTask(input: CreateTaskInput): Promise<string> {
   };
 
   const persistedTask = toPersistedTask(task);
-  const created = await addDoc(tasksCollection, persistedTask);
+  const created = await addDoc(requireTasksCollection(), persistedTask);
 
   return created.id;
 }
 
 export async function toggleTaskDone(task: TaskWithId): Promise<void> {
-  await updateDoc(doc(tasksCollection, task.id), {
+  const collectionRef = requireTasksCollection();
+
+  await updateDoc(doc(collectionRef, task.id), {
     done: !task.done,
   });
 }
 
 export async function deleteTaskById(taskId: string): Promise<void> {
-  await deleteDoc(doc(tasksCollection, taskId));
+  await deleteDoc(doc(requireTasksCollection(), taskId));
 }
