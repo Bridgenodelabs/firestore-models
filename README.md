@@ -12,6 +12,7 @@ The library keeps your application-facing domain types separate from the objects
 - Supports optional runtime validation before migration/hydration
 - Normalizes timestamp-like values without importing Firebase types into core code
 - Provides optional adapters for Firebase Web SDK and Firebase Admin SDK
+- Provides an optional React hooks subpath for Firebase Web SDK subscriptions and mutations
 
 ## Install
 
@@ -29,6 +30,12 @@ pnpm add firebase
 
 ```bash
 pnpm add firebase-admin
+```
+
+If you want to use the optional React hooks subpath, install React as well:
+
+```bash
+pnpm add react
 ```
 
 ## Core idea
@@ -293,6 +300,42 @@ const persisted = taskModel.toPersisted(
 );
 ```
 
+## Optional React hooks example
+
+Use the optional `firestore-type/react` subpath to compose migration-on-read and model-aware writes in client apps.
+
+```ts
+import { query } from "firebase/firestore";
+import {
+  useFirestoreCollectionDomain,
+  useFirestoreMutations,
+} from "firestore-type/react";
+
+const {
+  documents: tasks,
+  loading,
+  error,
+} = useFirestoreCollectionDomain({
+  source: query(tasksCollection),
+  model: taskModel,
+});
+
+const { create, updatePersistedById, deleteById } = useFirestoreMutations({
+  collection: tasksCollection,
+  model: taskModel,
+});
+
+await create({
+  title: "Ship docs",
+  done: false,
+  dueAt: new Date(),
+  priority: "high",
+});
+
+await updatePersistedById("task-1", { done: true });
+await deleteById("task-1");
+```
+
 ## Main exports
 
 Top-level package:
@@ -308,6 +351,10 @@ import { defineModel, readDomain } from "firestore-type/core";
 import { dateFromTimestamp, timestampFromDate } from "firestore-type/time";
 import { readDocumentDomain } from "firestore-type/adapters/firebase-client";
 import { readDocumentDomain as readAdminDocumentDomain } from "firestore-type/adapters/firebase-admin";
+import {
+  useFirestoreCollectionDomain,
+  useFirestoreMutations,
+} from "firestore-type/react";
 ```
 
 ## Development
@@ -323,5 +370,5 @@ See `docs/firestore-object-toolkit-design.md` for the design overview and `docs/
 Sample projects:
 
 - `samples/shared`: shared Task model with migration and validation
-- `samples/web-app`: runnable React + Vite Firebase Emulator sample using the firebase-client adapter
+- `samples/web-app`: runnable React + Vite Firebase Emulator sample using firestore-type/react hooks
 - `samples/project-task-sample`: CLI runner demonstrating transactional writes to a nested `projects/{projectId}/tasks` subcollection
