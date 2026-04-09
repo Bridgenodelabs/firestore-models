@@ -33,8 +33,7 @@ In package.json:
 - Add `packageManager`: `"pnpm@9.0.0"`
 
 
-
-This ensures test/lint/build pass before any publish attempt.
+Quality gates (lint, typecheck, test, build) are enforced automatically by Husky pre-commit/pre-push hooks and the CI workflow before any publish attempt.
 
 ### A6. Create .npmignore for package boundaries
 

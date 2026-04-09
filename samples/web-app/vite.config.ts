@@ -6,17 +6,20 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "firestore-type/core": fileURLToPath(
+      "@bridgenodelabs/firestore-models/core": fileURLToPath(
         new URL("../../src/core/index.ts", import.meta.url),
       ),
-      "firestore-type/time": fileURLToPath(
+      "@bridgenodelabs/firestore-models/time": fileURLToPath(
         new URL("../../src/time/index.ts", import.meta.url),
       ),
-      "firestore-type/adapters/firebase-client": fileURLToPath(
+      "@bridgenodelabs/firestore-models/adapters/firebase-client": fileURLToPath(
         new URL("../../src/adapters/firebase-client/index.ts", import.meta.url),
       ),
-      "firestore-type/adapters/firebase-admin": fileURLToPath(
+      "@bridgenodelabs/firestore-models/adapters/firebase-admin": fileURLToPath(
         new URL("../../src/adapters/firebase-admin/index.ts", import.meta.url),
+      ),
+      "@bridgenodelabs/firestore-models/react": fileURLToPath(
+        new URL("../../src/react/index.ts", import.meta.url),
       ),
     },
   },

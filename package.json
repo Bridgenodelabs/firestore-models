@@ -36,7 +36,7 @@
     "agents"
   ],
   "scripts": {
-    "prebuild": "rm -rf dist",
+    "prebuild": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
@@ -63,7 +63,7 @@
     "url": "https://github.com/bridgenodelabs/firestore-models/issues"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.0.0",
     "pnpm": ">=9"
   },
   "packageManager": "pnpm@9.0.0",

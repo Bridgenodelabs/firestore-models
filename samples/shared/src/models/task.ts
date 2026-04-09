@@ -4,12 +4,12 @@ import {
   createValidator,
   defineModel,
   type PersistedBase,
-} from "firestore-type/core";
+} from "@bridgenodelabs/firestore-models/core";
 import {
   dateFromTimestamp,
   timestampFromDate,
   type TimestampLike,
-} from "firestore-type/time";
+} from "@bridgenodelabs/firestore-models/time";
 
 export const taskPriorityValues = ["low", "medium", "high"] as const;
 

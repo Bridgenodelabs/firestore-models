@@ -12,7 +12,7 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "firebase": "^12.11.0",
-    "firestore-type": "file:../.."
+    "@bridgenodelabs/firestore-models": "file:../.."
   },
   "devDependencies": {
     "@types/node": "^22.1.4",

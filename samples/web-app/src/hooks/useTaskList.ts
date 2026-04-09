@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import {
   useFirestoreCollectionDomain,
   useFirestoreMutations,
-} from "firestore-type/react";
+} from "@bridgenodelabs/firestore-models/react";
 import { query } from "firebase/firestore";
 
 import { tasksCollection } from "../lib/firestore";

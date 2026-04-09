@@ -1,9 +1,9 @@
-import { defineModel, type PersistedBase } from "firestore-type/core";
+import { defineModel, type PersistedBase } from "@bridgenodelabs/firestore-models/core";
 import {
   dateFromTimestamp,
   timestampFromDate,
   type TimestampLike,
-} from "firestore-type/time";
+} from "@bridgenodelabs/firestore-models/time";
 
 const defaultTimestampFactory = (date: Date) => ({
   seconds: Math.floor(date.getTime() / 1000),

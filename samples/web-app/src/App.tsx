@@ -8,7 +8,7 @@ export function App() {
     return (
       <main className="app-shell">
         <section className="hero-card">
-          <p className="eyebrow">firestore-type sample</p>
+          <p className="eyebrow">@bridgenodelabs/firestore-models sample</p>
           <h1>Web Task Sample</h1>
           <p>
             This app reads Firestore documents through the model boundary and
@@ -39,7 +39,7 @@ export function App() {
   return (
     <main className="app-shell">
       <section className="hero-card">
-        <p className="eyebrow">firestore-type sample</p>
+        <p className="eyebrow">@bridgenodelabs/firestore-models sample</p>
         <h1>Web Task Sample</h1>
         <p>
           This app reads Firestore documents through the model boundary and

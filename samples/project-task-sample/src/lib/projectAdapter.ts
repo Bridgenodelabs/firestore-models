@@ -9,7 +9,7 @@ import {
 import {
   readDocumentDomain,
   type BrowserDocumentSnapshot,
-} from "firestore-type/adapters/firebase-client";
+} from "@bridgenodelabs/firestore-models/adapters/firebase-client";
 
 import { projectModel, type Project } from "../models/project";
 import {

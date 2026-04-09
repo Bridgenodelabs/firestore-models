@@ -9,13 +9,13 @@
     "baseUrl": ".",
     "rootDirs": ["./src", "../../src"],
     "paths": {
-      "firestore-type": ["../../src/index.ts"],
-      "firestore-type/core": ["../../src/core/index.ts"],
-      "firestore-type/time": ["../../src/time/index.ts"],
-      "firestore-type/adapters/firebase-client": [
+      "@bridgenodelabs/firestore-models": ["../../src/index.ts"],
+      "@bridgenodelabs/firestore-models/core": ["../../src/core/index.ts"],
+      "@bridgenodelabs/firestore-models/time": ["../../src/time/index.ts"],
+      "@bridgenodelabs/firestore-models/adapters/firebase-client": [
         "../../src/adapters/firebase-client/index.ts"
       ],
-      "firestore-type/adapters/firebase-admin": [
+      "@bridgenodelabs/firestore-models/adapters/firebase-admin": [
         "../../src/adapters/firebase-admin/index.ts"
       ]
     }

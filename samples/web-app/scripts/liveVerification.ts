@@ -14,7 +14,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { readDocumentDomain } from "firestore-type/adapters/firebase-client";
+import { readDocumentDomain } from "@bridgenodelabs/firestore-models/adapters/firebase-client";
 
 import {
   taskModel,
