@@ -1,5 +1,5 @@
 {
-  "name": "firestore-type",
+  "name": "@bridgenodelabs/firestore-models",
   "version": "0.1.0",
   "description": "TypeScript types and utilities for Firestore, usable in both browser and Node.js environments",
   "type": "module",
@@ -52,8 +52,21 @@
     "firebase",
     "types"
   ],
-  "author": "",
+  "author": "Todd Warren <todd@warrenfamily.org>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bridgenodelabs/firestore-models"
+  },
+  "homepage": "https://github.com/bridgenodelabs/firestore-models",
+  "bugs": {
+    "url": "https://github.com/bridgenodelabs/firestore-models/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.0.0",
   "devDependencies": {
     "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.12",

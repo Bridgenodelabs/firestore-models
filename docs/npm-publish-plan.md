@@ -32,18 +32,7 @@ In package.json:
 - Add `engines`: `{ "node": ">=18.0.0", "pnpm": ">=9" }`
 - Add `packageManager`: `"pnpm@9.0.0"`
 
-### A5. Add prepublishOnly quality gate script
 
-Add to package.json scripts:
-
-```json
-{
-  "scripts": {
-    "prebuild": "rm -rf dist",
-    "prepublishOnly": "pnpm run lint && pnpm run test && pnpm run build"
-  }
-}
-```
 
 This ensures test/lint/build pass before any publish attempt.
 

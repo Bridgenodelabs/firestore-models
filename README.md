@@ -1,8 +1,12 @@
-# firestore-type
+# firestore-models
 
 TypeScript utilities for defining Firestore-backed models with explicit persisted shapes, schema-versioned migrations, runtime validation hooks, and timestamp normalization.
 
 The library keeps your application-facing domain types separate from the objects you actually store in Firestore.
+
+Repository: https://github.com/bridgenodelabs/firestore-models
+
+Package: `@bridgenodelabs/firestore-models`
 
 ## What it does
 
@@ -19,7 +23,7 @@ The library keeps your application-facing domain types separate from the objects
 Install the library:
 
 ```bash
-pnpm add firestore-type
+pnpm add @bridgenodelabs/firestore-models
 ```
 
 If you want to use one of the Firebase adapters, also install the relevant peer dependency:
@@ -56,7 +60,7 @@ import {
   defineModel,
   readDomain,
   type PersistedBase,
-} from "firestore-type/core";
+} from "@bridgenodelabs/firestore-models/core";
 
 interface Task {
   title: string;
@@ -101,7 +105,7 @@ import {
   defineModel,
   readDomain,
   type PersistedBase,
-} from "firestore-type/core";
+} from "@bridgenodelabs/firestore-models/core";
 
 interface Task {
   title: string;
@@ -167,7 +171,7 @@ import {
   defineModel,
   readDomain,
   type PersistedBase,
-} from "firestore-type/core";
+} from "@bridgenodelabs/firestore-models/core";
 
 interface Counter {
   value: number;
@@ -208,8 +212,11 @@ import {
   defineModel,
   type PersistedBase,
   type ToTimestamp,
-} from "firestore-type/core";
-import { dateFromTimestamp, type TimestampLike } from "firestore-type/time";
+} from "@bridgenodelabs/firestore-models/core";
+import {
+  dateFromTimestamp,
+  type TimestampLike,
+} from "@bridgenodelabs/firestore-models/time";
 
 interface Task {
   title: string;
@@ -256,7 +263,7 @@ const persisted = taskModel.toPersisted(
 You can also use the helper directly:
 
 ```ts
-import { timestampFromDate } from "firestore-type/time";
+import { timestampFromDate } from "@bridgenodelabs/firestore-models/time";
 import { Timestamp } from "firebase/firestore";
 
 const timestamp = timestampFromDate(new Date(), Timestamp.fromDate);
@@ -268,7 +275,7 @@ Use the Web adapter to read a `DocumentSnapshot` and run the full migration-on-r
 
 ```ts
 import { doc, getDoc, Timestamp } from "firebase/firestore";
-import { readDocumentDomain } from "firestore-type/adapters/firebase-client";
+import { readDocumentDomain } from "@bridgenodelabs/firestore-models/adapters/firebase-client";
 
 const snapshot = await getDoc(doc(db, "tasks/task-1"));
 
@@ -288,7 +295,7 @@ Use the Admin adapter the same way on the server.
 
 ```ts
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
-import { readDocumentDomain } from "firestore-type/adapters/firebase-admin";
+import { readDocumentDomain } from "@bridgenodelabs/firestore-models/adapters/firebase-admin";
 
 const snapshot = await getFirestore().doc("tasks/task-1").get();
 
@@ -302,14 +309,14 @@ const persisted = taskModel.toPersisted(
 
 ## Optional React hooks example
 
-Use the optional `firestore-type/react` subpath to compose migration-on-read and model-aware writes in client apps.
+Use the optional `@bridgenodelabs/firestore-models/react` subpath to compose migration-on-read and model-aware writes in client apps.
 
 ```ts
 import { query } from "firebase/firestore";
 import {
   useFirestoreCollectionDomain,
   useFirestoreMutations,
-} from "firestore-type/react";
+} from "@bridgenodelabs/firestore-models/react";
 
 const {
   documents: tasks,
@@ -341,30 +348,33 @@ await deleteById("task-1");
 Top-level package:
 
 ```ts
-import { core, time, getDocumentData } from "firestore-type";
+import { core, time, getDocumentData } from "@bridgenodelabs/firestore-models";
 ```
 
 Focused subpath imports:
 
 ```ts
-import { defineModel, readDomain } from "firestore-type/core";
-import { dateFromTimestamp, timestampFromDate } from "firestore-type/time";
-import { readDocumentDomain } from "firestore-type/adapters/firebase-client";
-import { readDocumentDomain as readAdminDocumentDomain } from "firestore-type/adapters/firebase-admin";
+import { defineModel, readDomain } from "@bridgenodelabs/firestore-models/core";
+import {
+  dateFromTimestamp,
+  timestampFromDate,
+} from "@bridgenodelabs/firestore-models/time";
+import { readDocumentDomain } from "@bridgenodelabs/firestore-models/adapters/firebase-client";
+import { readDocumentDomain as readAdminDocumentDomain } from "@bridgenodelabs/firestore-models/adapters/firebase-admin";
 import {
   useFirestoreCollectionDomain,
   useFirestoreMutations,
-} from "firestore-type/react";
+} from "@bridgenodelabs/firestore-models/react";
 ```
 
 ## Claude Code agents
 
 The package ships two [Claude Code](https://claude.ai/code) subagent definitions in the `agents/` directory. Once installed they automate the most repetitive parts of adopting the library.
 
-| File | What it does |
-|------|-------------|
-| `agents/persistInterfaceToFirebase.md` | Give it a TypeScript interface and it scaffolds the full `firestore-type` model: persisted type, validator, `defineModel` with `toPersisted`/`fromPersisted`, and a Firebase Web SDK usage snippet |
-| `agents/createFirestoreHooks.md` | Give it an existing model and collection reference and it generates typed React hooks (`use<Name>List`, `use<Name>Document`) that compose `useFirestoreCollectionDomain`, `useFirestoreDocumentDomain`, and `useFirestoreMutations` |
+| File                                   | What it does                                                                                                                                                                                                                        |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `agents/persistInterfaceToFirebase.md` | Give it a TypeScript interface and it scaffolds the full `@bridgenodelabs/firestore-models` model: persisted type, validator, `defineModel` with `toPersisted`/`fromPersisted`, and a Firebase Web SDK usage snippet                |
+| `agents/createFirestoreHooks.md`       | Give it an existing model and collection reference and it generates typed React hooks (`use<Name>List`, `use<Name>Document`) that compose `useFirestoreCollectionDomain`, `useFirestoreDocumentDomain`, and `useFirestoreMutations` |
 
 ### Using the agents
 
@@ -372,8 +382,8 @@ Copy the agent files you want into your project's `.claude/agents/` directory:
 
 ```bash
 mkdir -p .claude/agents
-cp node_modules/firestore-type/agents/persistInterfaceToFirebase.md .claude/agents/
-cp node_modules/firestore-type/agents/createFirestoreHooks.md .claude/agents/
+cp node_modules/@bridgenodelabs/firestore-models/agents/persistInterfaceToFirebase.md .claude/agents/
+cp node_modules/@bridgenodelabs/firestore-models/agents/createFirestoreHooks.md .claude/agents/
 ```
 
 Claude Code picks up any `.md` files in `.claude/agents/` automatically. The agents will then appear when Claude decides the task matches their description, or you can invoke them explicitly:
@@ -393,6 +403,30 @@ Use the createFirestoreHooks agent to generate React hooks for productModel
 using the productsCollection reference in src/lib/firestore.ts.
 ```
 
+## Quality gates
+
+This repository includes local and remote quality gates so publishable changes are checked before they land.
+
+### Pre-commit hooks
+
+Husky is configured through the `prepare` script and installs two hooks:
+
+- `pre-commit`: runs `pnpm run lint && pnpm run typecheck`
+- `pre-push`: runs `pnpm run test && pnpm run build`
+
+That means type errors are blocked before commit, and tests plus package build are blocked before push.
+
+### CI and publish automation
+
+GitHub Actions adds the same checks in automation:
+
+- CI runs on pull requests and pushes to `main`
+- CI runs `lint`, `typecheck`, `test`, `build`, and `npm pack --dry-run`
+- Publish runs on version tags like `v0.1.0`
+- Publish re-runs verification before `npm publish --access public --provenance`
+
+The publish workflow is intended for the repository at `bridgenodelabs/firestore-models`.
+
 ## Development
 
 ```bash
@@ -406,5 +440,5 @@ See `docs/firestore-object-toolkit-design.md` for the design overview and `docs/
 Sample projects:
 
 - `samples/shared`: shared Task model with migration and validation
-- `samples/web-app`: runnable React + Vite Firebase Emulator sample using firestore-type/react hooks
+- `samples/web-app`: runnable React + Vite Firebase Emulator sample using @bridgenodelabs/firestore-models/react hooks
 - `samples/project-task-sample`: CLI runner demonstrating transactional writes to a nested `projects/{projectId}/tasks` subcollection
