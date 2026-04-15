@@ -1,6 +1,6 @@
 # Shared Task Sample
 
-This package is the first concrete sample for `firestore-type`.
+This package is the shared Task model sample for `@bridgenodelabs/firestore-models`.
 
 It demonstrates:
 
@@ -42,8 +42,9 @@ interface Task {
 
 ## Intended Consumers
 
-- `samples/web-app/`: will reuse this model with the Firebase Web SDK and `firestore-type/react`
-- `samples/firebase-function/`: will reuse this model with the Admin SDK and `firestore-type/adapters/firebase-admin`
+- `samples/web-app/`: reuses this model with the Firebase Web SDK and `@bridgenodelabs/firestore-models/react`
+- `samples/project-task-sample/`: reuses this model inside a transactional parent/subcollection write flow
+- `samples/firebase-function/`: planned to reuse this model with the Admin SDK and `@bridgenodelabs/firestore-models/adapters/firebase-admin`
 
 ## Type Checking
 

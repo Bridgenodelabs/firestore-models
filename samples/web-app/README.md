@@ -1,20 +1,20 @@
 # Web Task Sample
 
-Runnable React + Vite sample that demonstrates `firestore-type` migration-on-read and domain/persisted separation with the Firebase Web SDK.
+Runnable React + Vite sample that demonstrates `@bridgenodelabs/firestore-models` migration-on-read and domain/persisted separation with the Firebase Web SDK.
 
-The UI only works with `Task` domain objects from the shared sample model. Firestore read/write wiring is handled through the optional `firestore-type/react` hooks subpath.
+The UI only works with `Task` domain objects from the shared sample model. Firestore read/write wiring is handled through the optional `@bridgenodelabs/firestore-models/react` hooks subpath.
 
 ## What this demonstrates
 
 - Create task writes with `schemaVersion: 1` persisted shape
-- Live list reads using `useFirestoreCollectionDomain` from `firestore-type/react`
+- Live list reads using `useFirestoreCollectionDomain` from `@bridgenodelabs/firestore-models/react`
 - Legacy `schemaVersion: 0` docs transparently migrate to current `Task` domain objects
 - Toggle done and delete via `useFirestoreMutations`
 - Emulator-first development flow for safe local testing
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 22+
 - `pnpm`
 - Firebase Emulator Suite (`firebase-tools`)
 
@@ -125,6 +125,6 @@ The script reads `samples/web-app/.env.local` when present, but also falls back 
 - `.env.local.sample` env template committed to the repo
 - `src/lib/firestore.ts` Firebase app setup + emulator connection
 - `src/models/task.ts` shared model re-export (no duplicated migration logic)
-- `src/hooks/useTaskList.ts` composition layer that uses `firestore-type/react` hooks
+- `src/hooks/useTaskList.ts` composition layer that uses `@bridgenodelabs/firestore-models/react` hooks
 - `src/components/TaskForm.tsx` create flow
 - `src/components/TaskList.tsx` list/toggle/delete flows

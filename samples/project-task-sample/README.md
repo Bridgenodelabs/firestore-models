@@ -1,6 +1,6 @@
 # Project Task Subcollection Sample
 
-A small TypeScript runner that shows how to layer a `Project` model over the shared `Task` model, persist both the parent document and its task subcollection inside a single Firestore transaction, and then read everything back through `firestore-type`’s migration layer.
+A small TypeScript runner that shows how to layer a `Project` model over the shared `Task` model, persist both the parent document and its task subcollection inside a single Firestore transaction, and then read everything back through `@bridgenodelabs/firestore-models` migration layer.
 
 ## What this demonstrates
 
@@ -11,7 +11,7 @@ A small TypeScript runner that shows how to layer a `Project` model over the sha
 
 ## Prerequisites
 
-- Node.js 20+ (for the Firebase Web SDK in Node)
+- Node.js 22+ (for this repository and the Firebase Web SDK in Node)
 - `pnpm`
 - Firebase Emulator Suite (`firebase-tools`)
 

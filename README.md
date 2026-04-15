@@ -42,7 +42,19 @@ If you want to use the optional React hooks subpath, install React as well:
 pnpm add react
 ```
 
-## Core idea
+## Using the library
+
+Use the core package to define pure model logic, then choose the adapter that matches the Firestore runtime you use:
+
+- `@bridgenodelabs/firestore-models/core` for model definitions, migrations, read hydration, and validators
+- `@bridgenodelabs/firestore-models/time` for SDK-independent timestamp conversion
+- `@bridgenodelabs/firestore-models/adapters/firebase-client` for Firebase Web SDK snapshots
+- `@bridgenodelabs/firestore-models/adapters/firebase-admin` for Firebase Admin SDK snapshots
+- `@bridgenodelabs/firestore-models/react` for optional Firebase Web SDK React subscriptions and mutations
+
+The library does not own your Firestore collection paths, Firebase app initialization, security rules, or write orchestration. It gives you a typed model boundary so application code can work with domain objects while Firestore stores explicit, versioned persisted shapes.
+
+### Core idea
 
 Model definitions work with two shapes:
 
@@ -51,7 +63,7 @@ Model definitions work with two shapes:
 
 You define how to convert between them, and the library handles validation and migration-on-read.
 
-## Quick start
+### Quick start
 
 This example stores a `Task` with a versioned persisted shape.
 
@@ -96,7 +108,7 @@ const task = readDomain(raw, taskModel);
 // { title: 'Ship README', done: false }
 ```
 
-## Migration on read
+### Migration on read
 
 If older documents are still in Firestore, define migrations keyed by the source version.
 
@@ -159,7 +171,7 @@ The read flow is:
 3. Apply migrations in order until `currentVersion`
 4. Convert the latest persisted shape into the domain object
 
-## Validation hook
+### Validation hook
 
 You can run runtime validation before migration and hydration.
 
@@ -203,7 +215,7 @@ const counterModel = defineModel<Counter, CounterDocument>({
 const counter = readDomain({ schemaVersion: 1, value: 42 }, counterModel);
 ```
 
-## Timestamps without Firebase imports in core models
+### Timestamps without Firebase imports in core models
 
 The `time` module accepts a duck-typed timestamp shape, so your model definitions do not need to import Firebase SDK types.
 
@@ -269,7 +281,7 @@ import { Timestamp } from "firebase/firestore";
 const timestamp = timestampFromDate(new Date(), Timestamp.fromDate);
 ```
 
-## Firebase Web SDK example
+### Firebase Web SDK example
 
 Use the Web adapter to read a `DocumentSnapshot` and run the full migration-on-read flow.
 
@@ -289,7 +301,7 @@ const persisted = taskModel.toPersisted(
 
 If you only want typed snapshot wrappers, the adapter also exports `toTypedSnapshot` and `toTypedQuerySnapshot`.
 
-## Firebase Admin SDK example
+### Firebase Admin SDK example
 
 Use the Admin adapter the same way on the server.
 
@@ -307,7 +319,7 @@ const persisted = taskModel.toPersisted(
 );
 ```
 
-## Optional React hooks example
+### Optional React hooks example
 
 Use the optional `@bridgenodelabs/firestore-models/react` subpath to compose migration-on-read and model-aware writes in client apps.
 
@@ -427,6 +439,29 @@ GitHub Actions adds the same checks in automation:
 
 The publish workflow is intended for the repository at `bridgenodelabs/firestore-models`.
 
+## Creating a pull request
+
+Use Node.js 22 or later and pnpm 9 or later. From a fresh checkout:
+
+```bash
+pnpm install
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run build
+pnpm run pack:check
+```
+
+Before opening a PR:
+
+1. Keep changes scoped to the model, adapter, sample, or documentation behavior being changed.
+2. Add or update tests when changing runtime behavior.
+3. Update README, `docs/user-guide.md`, or sample READMEs when public usage changes.
+4. Run the checks above locally. CI runs the same lint, typecheck, test, build, and package-content checks on pull requests.
+5. For sample changes, run the affected sample command as well, such as `pnpm --dir samples/shared run check`, `pnpm --dir samples/web-app typecheck`, or `pnpm --dir samples/project-task-sample typecheck`.
+
+PRs should describe the user-visible behavior change, the verification performed, and any follow-up work intentionally left out.
+
 ## Development
 
 ```bash
@@ -435,10 +470,12 @@ pnpm test
 pnpm build
 ```
 
-See `docs/firestore-object-toolkit-design.md` for the design overview and `docs/user-guide.md` for additional project documentation.
+See `docs/user-guide.md` for the longer usage guide and `docs/firestore-object-toolkit-design.md` for the design overview.
 
 Sample projects:
 
 - `samples/shared`: shared Task model with migration and validation
 - `samples/web-app`: runnable React + Vite Firebase Emulator sample using @bridgenodelabs/firestore-models/react hooks
 - `samples/project-task-sample`: CLI runner demonstrating transactional writes to a nested `projects/{projectId}/tasks` subcollection
+
+Documentation note: several files under `docs/` are historical planning or design-capture artifacts rather than current user guides. Keep `README.md`, `docs/user-guide.md`, and the sample READMEs as the primary documentation surface.

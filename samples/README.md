@@ -1,6 +1,6 @@
-# firestore-type Samples
+# firestore-models Samples
 
-Sample applications demonstrating `firestore-type` patterns including migration-on-read, domain/persisted separation, and adapter-based Firestore integration.
+Sample applications demonstrating `@bridgenodelabs/firestore-models` patterns including migration-on-read, domain/persisted separation, and adapter-based Firestore integration.
 
 ## Quick Start
 
@@ -8,7 +8,7 @@ Sample applications demonstrating `firestore-type` patterns including migration-
 
 Ensure you have the following installed:
 
-- **Node.js** 20 or later
+- **Node.js** 22 or later
 - **pnpm** (npm package manager)
 - **Firebase Emulator Suite** (`firebase-tools`)
 
@@ -32,7 +32,7 @@ From the repository root:
 # Install root dependencies
 pnpm install
 
-# Build the firestore-type library
+# Build the firestore-models library
 pnpm build
 ```
 
@@ -47,7 +47,7 @@ A complete, runnable React application demonstrating Firestore integration using
 - Live task list with Firestore subscriptions
 - Create, read (with live updates), toggle done, and delete tasks
 - Migration-on-read: transparent upgrade of `schemaVersion: 0` documents to current domain shape
-- Domain/persisted boundary isolation via `firestore-type/react` hooks
+- Domain/persisted boundary isolation via `@bridgenodelabs/firestore-models/react` hooks
 - Emulator-first development flow
 
 **Getting started:**
@@ -85,11 +85,11 @@ pnpm dev
 
 See [samples/project-task-sample/README.md](project-task-sample/README.md) for environment variables, emulator setup, and verification tips.
 
-### Firebase Function (Cloud Function Adapter)
+### Planned Firebase Function (Cloud Function Adapter)
 
-Sample Cloud Function implementation using `firestore-type/adapters/firebase-admin` for server-side migrations and mutations.
+Sample Cloud Function implementation using `@bridgenodelabs/firestore-models/adapters/firebase-admin` for server-side migrations and mutations.
 
-**Status:** Coming soon
+**Status:** planned; no sample package is present in this tree yet.
 
 **Planned scope:**
 
@@ -139,15 +139,14 @@ samples/
 ├── web-app/                         # React + Vite sample (runnable)
 │   ├── src/
 │   │   ├── lib/                     # Firestore init and SDK configuration
-│   │   ├── hooks/                   # Composition over firestore-type/react hooks
+│   │   ├── hooks/                   # Composition over @bridgenodelabs/firestore-models/react hooks
 │   │   ├── components/              # UI components
 │   │   └── styles/                  # CSS design system
 │   ├── scripts/
 │   │   └── liveVerification.ts      # CRUD + migration verification script
 │   ├── package.json
 │   └── README.md
-└── firebase-function/               # Cloud Function sample (stub)
-    └── Coming soon...
+└── firebase-function/               # Planned Cloud Function sample; not present yet
 ```
 
 ## Common Tasks
@@ -180,11 +179,11 @@ This runs a TypeScript script that tests:
 
 ### Test Against Emulator
 
-All samples connect automatically to the emulator in development mode. The web sample reads and writes through `firestore-type/react`, which still uses `readDocumentDomain` and model migration logic under the hood.
+All samples connect automatically to the emulator in development mode. The web sample reads and writes through `@bridgenodelabs/firestore-models/react`, which still uses `readDocumentDomain` and model migration logic under the hood.
 
 ## Documentation
 
-- [firestore-type User Guide](../docs/user-guide.md) — High-level library overview
+- [firestore-models User Guide](../docs/user-guide.md) — High-level library overview
 - [Migration Philosophy](../docs/migration-philosophy.md) — Design rationale for migration-on-read patterns
 - [Web App README](web-app/README.md) — Detailed web sample setup and flow documentation
 

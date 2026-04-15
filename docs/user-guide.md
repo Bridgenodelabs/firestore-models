@@ -1,4 +1,4 @@
-# Firestore-type User Guide
+# firestore-models User Guide
 
 This guide explains how to use the currently implemented library with versioned persisted shapes, timestamp normalization, and the shipped Firebase adapters.
 
@@ -11,8 +11,8 @@ This guide explains how to use the currently implemented library with versioned 
 Example shapes:
 
 ```ts
-import type { PersistedBase } from "firestore-type/core";
-import type { TimestampLike } from "firestore-type/time";
+import type { PersistedBase } from "@bridgenodelabs/firestore-models/core";
+import type { TimestampLike } from "@bridgenodelabs/firestore-models/time";
 
 export interface Task {
   title: string;
@@ -41,12 +41,12 @@ import {
   createValidator,
   defineModel,
   type PersistedBase,
-} from "firestore-type/core";
+} from "@bridgenodelabs/firestore-models/core";
 import {
   dateFromTimestamp,
   timestampFromDate,
   type TimestampLike,
-} from "firestore-type/time";
+} from "@bridgenodelabs/firestore-models/time";
 
 type TaskPriority = "low" | "medium" | "high";
 
@@ -179,7 +179,7 @@ Both Firebase adapters are implemented and ship with the library.
 
 ```ts
 import { doc, getDoc } from "firebase/firestore";
-import { readDocumentDomain } from "firestore-type/adapters/firebase-client";
+import { readDocumentDomain } from "@bridgenodelabs/firestore-models/adapters/firebase-client";
 
 const snapshot = await getDoc(doc(db, "tasks/task-1"));
 const task = readDocumentDomain(snapshot, taskModel);
@@ -194,7 +194,7 @@ const taskWithId = {
 
 ```ts
 import { getFirestore } from "firebase-admin/firestore";
-import { readDocumentDomain } from "firestore-type/adapters/firebase-admin";
+import { readDocumentDomain } from "@bridgenodelabs/firestore-models/adapters/firebase-admin";
 
 const snapshot = await getFirestore().doc("tasks/task-1").get();
 const task = readDocumentDomain(snapshot, taskModel);
@@ -209,7 +209,7 @@ If you only want structural typing helpers, the adapters also export `toTypedSna
 
 ## 6) Optional React hooks subpath
 
-If your app uses React and the Firebase Web SDK, you can opt into `firestore-type/react` for subscription and mutation hooks that reuse the same model migration/validation flow.
+If your app uses React and the Firebase Web SDK, you can opt into `@bridgenodelabs/firestore-models/react` for subscription and mutation hooks that reuse the same model migration/validation flow.
 
 Small Task example:
 
@@ -218,7 +218,7 @@ import { query } from "firebase/firestore";
 import {
   useFirestoreCollectionDomain,
   useFirestoreMutations,
-} from "firestore-type/react";
+} from "@bridgenodelabs/firestore-models/react";
 
 type TaskWithId = Task & { id: string };
 
@@ -258,7 +258,7 @@ import { query } from "firebase/firestore";
 import {
   useFirestoreCollectionDomain,
   useFirestoreMutations,
-} from "firestore-type/react";
+} from "@bridgenodelabs/firestore-models/react";
 
 const {
   documents: tasks,
@@ -302,14 +302,14 @@ Migration note for existing React apps:
 
 - if you currently call `readDocumentDomain` manually in `onSnapshot`, move that logic into `useFirestoreCollectionDomain` or `useFirestoreDocumentDomain`
 - if you currently call `model.toPersisted(..., Timestamp.fromDate)` directly before `addDoc`/`setDoc`, move that path into `useFirestoreMutations`
-- `firestore-type/react` is optional and remains isolated from `firestore-type/core`, `firestore-type/time`, and adapter subpaths
+- `@bridgenodelabs/firestore-models/react` is optional and remains isolated from `@bridgenodelabs/firestore-models/core`, `@bridgenodelabs/firestore-models/time`, and adapter subpaths
 
 ## 7) Samples
 
 The sample work is now centered on a shared Task model package:
 
 - `samples/shared/`: reusable Task model, persisted shapes, migration, and timestamp helpers.
-- `samples/web-app/`: runnable React + Vite example using the Firebase Web SDK and firestore-type/react hooks.
+- `samples/web-app/`: runnable React + Vite example using the Firebase Web SDK and `@bridgenodelabs/firestore-models/react` hooks.
 - `samples/project-task-sample/`: CLI runner that demonstrates writing a `Project` document and its `tasks` subcollection inside a single transaction while reusing the shared `taskModel`.
 - `samples/firebase-function/`: planned runnable admin-side example for Cloud Functions and the emulator.
 

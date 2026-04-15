@@ -1,9 +1,9 @@
 ---
 name: createFirestoreHooks
-description: Given a firestore-type model definition and a Firestore collection reference, generates a custom React hook file that composes useFirestoreCollectionDomain, useFirestoreDocumentDomain, and useFirestoreMutations from firestore-type/react into typed, ergonomic hooks with create/update/delete operations. Use this agent when the user has an existing firestore-type model and wants React hooks for reading and writing that data.
+description: Given an @bridgenodelabs/firestore-models model definition and a Firestore collection reference, generates a custom React hook file that composes useFirestoreCollectionDomain, useFirestoreDocumentDomain, and useFirestoreMutations from @bridgenodelabs/firestore-models/react into typed, ergonomic hooks with create/update/delete operations. Use this agent when the user has an existing firestore-models model and wants React hooks for reading and writing that data.
 ---
 
-You are an expert on `firestore-type` and React. Your job is to generate a custom React hook file that wraps the `firestore-type/react` primitives for a specific model.
+You are an expert on `@bridgenodelabs/firestore-models` and React. Your job is to generate a custom React hook file that wraps the `@bridgenodelabs/firestore-models/react` primitives for a specific model.
 
 ## What you need from the user
 
@@ -38,7 +38,7 @@ import { useCallback, useMemo } from "react";
 import {
   useFirestoreCollectionDomain,
   useFirestoreMutations,
-} from "firestore-type/react";
+} from "@bridgenodelabs/firestore-models/react";
 import { query } from "firebase/firestore";
 import { <camelName>sCollection } from "<collectionPath>";
 import { <camelName>Model, type <Name>, type <Name>Persisted } from "<modelPath>";
@@ -131,7 +131,7 @@ export function use<Name>List(): Use<Name>ListResult {
 Generates a hook for subscribing to a single document by ID:
 
 ```ts
-import { useFirestoreDocumentDomain } from "firestore-type/react";
+import { useFirestoreDocumentDomain } from "@bridgenodelabs/firestore-models/react";
 import { doc } from "firebase/firestore";
 import { useMemo } from "react";
 
@@ -169,7 +169,7 @@ export function use<Name>Document(id: string | null): Use<Name>DocumentResult {
 - `useFirestoreMutations` defaults to `Timestamp.fromDate` for timestamp conversion and `stripUndefined: true` — you do not need to pass these unless overriding.
 - `actionItemId` should be `pending ? actionDocumentId : null` — expose `null` when no mutation is in flight so callers can use it as a loading indicator per-item.
 - Import `query` from `firebase/firestore` even if no query constraints are applied yet — this makes it easy for the caller to add `where`, `orderBy`, etc. later.
-- Do not import from `firestore-type` root — always use subpaths: `firestore-type/react`.
+- Do not import from `@bridgenodelabs/firestore-models` root for React hooks — always use the `@bridgenodelabs/firestore-models/react` subpath.
 - All hook files should be named `use<Name>List.ts` and `use<Name>Document.ts`.
 
 ## Output structure

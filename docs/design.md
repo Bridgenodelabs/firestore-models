@@ -91,8 +91,8 @@ tests live alongside source files as `src/**/*.test.ts`
 
 ### Adapter Subpath Exports (optional)
 
-- `firestore-type/adapters/firebase-client`
-- `firestore-type/adapters/firebase-admin`
+- `@bridgenodelabs/firestore-models/adapters/firebase-client`
+- `@bridgenodelabs/firestore-models/adapters/firebase-admin`
 
 Each adapter exports:
 
