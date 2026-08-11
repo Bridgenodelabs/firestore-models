@@ -84,17 +84,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # The two Node LTS lines that are live, and which every supported
-        # consumer toolchain admits: @angular/core 22 requires
-        # ^22.22.3 || ^24.15.0 || >=26.0.0, and firebase-admin 14 requires >=22.
-        # The plan's Node 18/20 legs were dropped — both are past end-of-life
-        # and both are excluded by those constraints and by our own
-        # engines.node (>=22.0.0).
-        node: [22, 24]
+        # 22.22.3 is the declared engines.node floor, tested exactly so the
+        # claim is backed by a run rather than an assumption. It is also
+        # @angular/core 22's minimum on the 22 line
+        # (^22.22.3 || ^24.15.0 || >=26.0.0), which keeps the repo coherent
+        # with an Angular sample under samples/.
+        #
+        # 22 and 24 cover the head of both live LTS lines. The plan's Node
+        # 18/20 legs were dropped — both are past end-of-life and both are
+        # excluded by Angular 22, firebase-admin 14 (>=22), and our own
+        # engines.node.
+        node: ["22.22.3", "22", "24"]
         experimental: [false]
         include:
           # Node 26 goes LTS in October; run it early, non-blocking.
-          - node: 26
+          - node: "26"
             experimental: true
 
     steps:

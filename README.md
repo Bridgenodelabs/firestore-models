@@ -57,7 +57,8 @@ TypeScript resolves correctly under `bundler`, `node16`, `nodenext`, **and**
 subpath below is importable by its public specifier under all four; there is
 never a reason to reach into `dist/` directly.
 
-Requires Node 22 or newer.
+Requires Node 22.22.3 or newer — the floor shared by the current Node 22 LTS
+line and Angular 22 (`^22.22.3 || ^24.15.0 || >=26.0.0`).
 
 ## Using the library
 
@@ -452,7 +453,7 @@ GitHub Actions adds the same checks in automation:
 - CI runs on pull requests and pushes to `main`
 - CI runs `lint`, `typecheck`, `test`, `build`, and `npm pack --dry-run`
 - CI runs `publint --strict` and `@arethetypeswrong/cli --pack` against the packed tarball
-- CI runs the packaging fixtures on Node 22 and 24, and non-blocking on Node 26
+- CI runs the packaging fixtures on Node 22.22.3 (the declared `engines.node` floor), 22, and 24, and non-blocking on Node 26
 - Publish runs on version tags like `v0.1.0`
 - Publish re-runs verification before `npm publish --access public --provenance`
 
@@ -473,7 +474,7 @@ every other check in this repository. See
 
 ## Creating a pull request
 
-Use Node.js 22 or later and pnpm 9 or later. From a fresh checkout:
+Use Node.js 22.22.3 or later and pnpm 9 or later. From a fresh checkout:
 
 ```bash
 pnpm install

@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1] - 2026-08-11
 
-Packaging only. **No public API change** — the exported surface is identical to
-`0.2.0`, no runtime dependencies were added, and every existing unit test passes
-unmodified.
+Packaging and published metadata. **No public API change** — the exported
+surface is identical to `0.2.0`, no runtime dependencies were added, and every
+existing unit test passes unmodified. The one metadata change beyond packaging
+is a narrowed `engines.node` floor, described under Changed.
 
 ### Fixed
 
@@ -43,10 +44,22 @@ unmodified.
   Run with `pnpm run test:packaging`.
 - `publint --strict` and `@arethetypeswrong/cli --pack` as CI and prepublish
   gates.
-- CI now runs the packaging fixtures on Node 22 and 24, plus Node 26
-  non-blocking.
+- CI now runs the packaging fixtures on Node 22.22.3 (the declared
+  `engines.node` floor), 22, and 24, plus Node 26 non-blocking.
 
 ### Changed
+
+- `engines.node` is now `">=22.22.3"`, up from `">=22.0.0"`. This is the floor
+  shared by the head of the Node 22 LTS line and Angular 22, whose own
+  constraint is `^22.22.3 || ^24.15.0 || >=26.0.0` — raised now so a planned
+  Angular sample under `samples/` does not sit in tension with the repository's
+  declared support floor. `firebase-admin` 14's `>=22` was already satisfied.
+
+  **Migration:** anyone on Node 22.0.0–22.22.2 will see an `EBADENGINE` warning
+  on install. It is a warning, not an error, unless the consumer sets
+  `engine-strict`. Node 22.22.3 shipped 2026-05-13; upgrading within the 22 LTS
+  line resolves it. Nothing in the library's runtime requires it — the floor is
+  a support statement, not a technical dependency.
 
 - `"type"` is now `"commonjs"` rather than `"module"`. CommonJS is the default
   format and ESM is extension-tagged, which is what makes the `node10` stubs
