@@ -451,10 +451,25 @@ GitHub Actions adds the same checks in automation:
 
 - CI runs on pull requests and pushes to `main`
 - CI runs `lint`, `typecheck`, `test`, `build`, and `npm pack --dry-run`
+- CI runs `publint --strict` and `@arethetypeswrong/cli --pack` against the packed tarball
+- CI runs the packaging fixtures on Node 22 and 24, and non-blocking on Node 26
 - Publish runs on version tags like `v0.1.0`
 - Publish re-runs verification before `npm publish --access public --provenance`
 
 The publish workflow is intended for the repository at `bridgenodelabs/firestore-models`.
+
+### Packaging fixtures
+
+`pnpm run test:packaging` builds the package, runs `npm pack`, and installs the
+resulting tarball into a throwaway project per fixture — a plain CommonJS
+consumer, a plain ESM consumer, a TypeScript CommonJS project on
+`moduleResolution: node10` with ts-jest, a `node16` project exercising both
+module modes, and a real esbuild bundle.
+
+These exist because the unit suite runs against `src` and cannot see the
+published package shape. A broken `exports` map or `files` allowlist passes
+every other check in this repository. See
+[`test/packaging/README.md`](test/packaging/README.md).
 
 ## Creating a pull request
 
@@ -469,12 +484,19 @@ pnpm run build
 pnpm run pack:check
 ```
 
+Or run the whole chain, including the packaging fixtures, in one go:
+
+```bash
+pnpm run verify
+```
+
 Before opening a PR:
 
 1. Keep changes scoped to the model, adapter, sample, or documentation behavior being changed.
 2. Add or update tests when changing runtime behavior.
 3. Update README, `docs/user-guide.md`, or sample READMEs when public usage changes.
-4. Run the checks above locally. CI runs the same lint, typecheck, test, build, and package-content checks on pull requests.
+4. Run the checks above locally. CI runs the same lint, typecheck, test, build, and package-content checks on pull requests, plus `publint`, `arethetypeswrong`, and the packaging fixtures.
+   If you change `package.json` `exports`, `files`, `main`, `types`, or the build output layout, run `pnpm run test:packaging` — nothing else in the repository can catch a packaging regression.
 5. For sample changes, run the affected sample command as well, such as `pnpm --dir samples/shared run check`, `pnpm --dir samples/web-app typecheck`, or `pnpm --dir samples/project-task-sample typecheck`.
 
 PRs should describe the user-visible behavior change, the verification performed, and any follow-up work intentionally left out.
