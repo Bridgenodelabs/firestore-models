@@ -1,0 +1,14 @@
+{
+  "name": "fixture-bundler",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "verify": "tsc --noEmit -p tsconfig.json && node build.mjs && node dist/bundle.mjs && node dist/bundle.cjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.25.0",
+    "typescript": "~5.9.0"
+  }
+}

@@ -3,9 +3,19 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-const requiredFiles = new Set(["package.json", "README.md", "LICENSE"]);
+import { SUBPATHS } from "./subpaths.mjs";
+
+// Every subpath ships a generated node10 stub; these are the only files allowed
+// to exist outside dist/ and agents/.
+const stubFiles = SUBPATHS.map((subpath) => `${subpath}/package.json`);
+
+const requiredFiles = new Set(["package.json", "README.md", "LICENSE", ...stubFiles]);
 const requiredDirectories = ["dist/", "agents/"];
-const allowedPath = /^(package\.json|README\.md|LICENSE|dist\/.+|agents\/.+)$/;
+const allowedPath = new RegExp(
+  `^(package\\.json|README\\.md|LICENSE|dist/.+|agents/.+|${stubFiles
+    .map((file) => file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|")})$`,
+);
 
 const npmCache = mkdtempSync(join(tmpdir(), "firestore-models-npm-cache-"));
 

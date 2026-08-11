@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   verify:
+    name: lint / typecheck / unit tests
     runs-on: ubuntu-latest
 
     steps:
@@ -43,3 +44,80 @@ jobs:
 
       - name: Verify package contents
         run: pnpm run pack:check
+
+  static-package-checks:
+    name: publint + arethetypeswrong
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      # Both run against the packed tarball rather than the working tree, so
+      # they see exactly what consumers download.
+      - name: publint
+        run: pnpm run check:publint
+
+      - name: arethetypeswrong
+        run: pnpm run check:attw
+
+  packaging:
+    name: packaging fixtures (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # The two Node LTS lines that are live, and which every supported
+        # consumer toolchain admits: @angular/core 22 requires
+        # ^22.22.3 || ^24.15.0 || >=26.0.0, and firebase-admin 14 requires >=22.
+        # The plan's Node 18/20 legs were dropped — both are past end-of-life
+        # and both are excluded by those constraints and by our own
+        # engines.node (>=22.0.0).
+        node: [22, 24]
+        experimental: [false]
+        include:
+          # Node 26 goes LTS in October; run it early, non-blocking.
+          - node: 26
+            experimental: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      # Packs the tarball and installs it into a throwaway dir per fixture.
+      # This is the only layer that can catch an exports/files regression —
+      # unit tests run against src and never see the published shape.
+      - name: Packaging fixtures
+        run: pnpm run test:packaging

@@ -52,6 +52,15 @@ jobs:
       - name: Verify package contents
         run: pnpm run pack:check
 
+      - name: publint
+        run: pnpm run check:publint
+
+      - name: arethetypeswrong
+        run: pnpm run check:attw
+
+      - name: Packaging fixtures
+        run: pnpm run test:packaging
+
       - name: Verify tag matches package version
         run: |
           TAG="${GITHUB_REF_NAME#v}"

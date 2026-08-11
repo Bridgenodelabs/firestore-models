@@ -147,3 +147,14 @@ vite.config.ts.timestamp-*
 # macOS Finder metadata
 .DS_Store
 **/.DS_Store
+
+# Generated node10 subpath resolution stubs (scripts/generate-node10-stubs.mjs).
+# Created by the build, shipped via package.json "files", never committed.
+/core/
+/time/
+/adapters/
+/react/
+
+# Packaging fixture scratch space
+/test/packaging/.work/
+*.tgz

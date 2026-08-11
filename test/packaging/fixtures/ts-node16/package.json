@@ -1,0 +1,13 @@
+{
+  "name": "fixture-ts-node16",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "verify": "tsc -p tsconfig.json && node dist/consumer.cjs && node dist/consumer.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "~5.9.0"
+  }
+}

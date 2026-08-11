@@ -1,0 +1,9 @@
+{
+  "name": "fixture-cjs-require",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "verify": "node verify.cjs"
+  }
+}

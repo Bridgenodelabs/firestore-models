@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+
+    // TypeScript rejects `moduleResolution: node16` paired with
+    // `module: commonjs` (TS5110), so the two module modes the plan asks for are
+    // selected per-file instead: `.cts` is resolved and emitted as CommonJS,
+    // `.mts` as ESM. That exercises both halves of the `exports` map under a
+    // single node16 project, which is exactly what attw's
+    // "node16 (from CJS)" / "node16 (from ESM)" columns check.
+    "module": "node16",
+    "moduleResolution": "node16",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"]
+  },
+  "include": ["src"]
+}

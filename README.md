@@ -42,6 +42,23 @@ If you want to use the optional React hooks subpath, install React as well:
 pnpm add react
 ```
 
+### Module formats
+
+The package ships both CommonJS and ESM builds, so it works from either kind of
+consumer with no configuration:
+
+| Consumer                                             | Resolves to             |
+| ---------------------------------------------------- | ----------------------- |
+| `import` / `"type": "module"` / bundlers              | `dist/**/index.mjs`     |
+| `require()` / `"type": "commonjs"`                    | `dist/**/index.js`      |
+
+TypeScript resolves correctly under `bundler`, `node16`, `nodenext`, **and**
+`node10` — the last being what many Nx and older CommonJS workspaces use. Every
+subpath below is importable by its public specifier under all four; there is
+never a reason to reach into `dist/` directly.
+
+Requires Node 22 or newer.
+
 ## Using the library
 
 Use the core package to define pure model logic, then choose the adapter that matches the Firestore runtime you use:

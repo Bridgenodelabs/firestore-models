@@ -9,9 +9,16 @@ export default defineConfig({
     "adapters/firebase-admin/index": "src/adapters/firebase-admin/index.ts",
     "react/index": "src/react/index.ts",
   },
-  format: ["esm"],
+  // CommonJS is the package default (`"type": "commonjs"`), so cjs output keeps
+  // the bare `.js` extension and ESM is extension-tagged as `.mjs`. This is what
+  // lets `moduleResolution: node10` consumers — which ignore `exports` entirely —
+  // resolve the node10 subpath stubs to ordinary `.js`/`.d.ts` files.
+  format: ["cjs", "esm"],
   dts: true,
   sourcemap: true,
   clean: true,
   splitting: false,
+  // Already implicit via peerDependencies; stated explicitly so the optional
+  // peers can never be inlined into the bundle.
+  external: ["firebase", "firebase-admin", "react", "react-dom"],
 });
