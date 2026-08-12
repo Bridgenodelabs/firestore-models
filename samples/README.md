@@ -8,7 +8,8 @@ Sample applications demonstrating `@bridgenodelabs/firestore-models` patterns in
 
 Ensure you have the following installed:
 
-- **Node.js** 22 or later
+- **Node.js** 22.22.3 or later (the Angular sample's CLI enforces this floor; the
+  other samples only need 22)
 - **pnpm** (npm package manager)
 - **Firebase Emulator Suite** (`firebase-tools`)
 
@@ -64,6 +65,34 @@ See [samples/web-app/README.md](web-app/README.md) for:
 - Running the app and testing CRUD operations
 - Seeding legacy schemaVersion 0 documents
 - Running automated verification (`pnpm verify:live`)
+
+### Angular App (Angular 22 standalone + signals)
+
+The Angular counterpart to the React sample — same Task model, same Firestore
+collection, same behaviour.
+
+**Features:**
+
+- Live task list with Firestore subscriptions, torn down via `DestroyRef`
+- Create, read (with live updates), toggle done, and delete tasks
+- Migration-on-read: transparent upgrade of `schemaVersion: 0` documents to current domain shape
+- Standalone components, signal-based store, and zoneless change detection (no `zone.js`)
+- Uses `@bridgenodelabs/firestore-models/adapters/firebase-client` directly rather than the React hooks, showing the library is not React-specific
+- Resolves the library as an installed package through its `exports` map, rather than aliasing to library source
+
+**Getting started:**
+
+```bash
+cd samples/angular-app
+pnpm install
+pnpm dev
+```
+
+Requires Node 22.22.3 or later — the Angular CLI enforces this at startup.
+
+See [samples/angular-app/README.md](angular-app/README.md) for emulator setup,
+the `src/environments` configuration pattern, and a table of the differences
+from the React sample.
 
 ### Project Task Subcollection Runner
 
@@ -146,6 +175,17 @@ samples/
 │   │   └── liveVerification.ts      # CRUD + migration verification script
 │   ├── package.json
 │   └── README.md
+├── angular-app/                     # Angular 22 standalone sample (runnable)
+│   ├── src/
+│   │   ├── app/                     # Standalone components + signal-based TaskStore
+│   │   ├── environments/            # Build-time config via fileReplacements
+│   │   ├── lib/                     # Firestore init and SDK configuration
+│   │   └── styles.css               # Same design system as the React sample
+│   ├── scripts/
+│   │   └── liveVerification.ts      # CRUD + migration verification script
+│   ├── angular.json
+│   ├── package.json
+│   └── README.md
 └── firebase-function/               # Planned Cloud Function sample; not present yet
 ```
 
@@ -159,6 +199,17 @@ firebase emulators:start --only firestore
 
 # Terminal 2: Run dev server
 cd samples/web-app
+pnpm dev
+```
+
+### Run Angular Sample
+
+```bash
+# Terminal 1: Start emulator
+firebase emulators:start --only firestore
+
+# Terminal 2: Run dev server
+cd samples/angular-app
 pnpm dev
 ```
 

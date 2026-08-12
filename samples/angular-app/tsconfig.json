@@ -1,0 +1,32 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noImplicitOverride": true,
+    // The Angular CLI scaffolds this as `true`. It is relaxed here because
+    // samples/shared/src/models/task.ts — shared verbatim with the React
+    // sample — validates raw Firestore data by reading properties off a
+    // `Record<string, unknown>`, which this flag rejects. Loosening one flag in
+    // the sample is preferable to rewriting a model that another sample
+    // depends on. Everything else stays at the CLI defaults.
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": false,
+    "importHelpers": true,
+    "ignoreDeprecations": "6.0"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  }
+}

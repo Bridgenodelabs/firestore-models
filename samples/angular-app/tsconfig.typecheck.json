@@ -1,0 +1,12 @@
+{
+  // Type-check only. Deliberately has no `outDir`: the app imports the shared
+  // Task model from ../shared, which sits outside this project's directory, and
+  // an `outDir` makes TypeScript infer a `rootDir` that excludes it (TS6059).
+  // The build itself is driven by angular.json / tsconfig.app.json.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": []
+  },
+  "include": ["src/**/*.ts"]
+}

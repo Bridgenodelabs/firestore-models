@@ -1,0 +1,33 @@
+{
+  "name": "@firestore-type/sample-angular-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Angular 22 standalone + signals Firestore emulator sample for firestore-models",
+  "scripts": {
+    "dev": "ng serve",
+    "start": "ng serve",
+    "build": "ng build",
+    "preview": "ng serve --configuration production",
+    "typecheck": "tsc -p tsconfig.typecheck.json && tsc -p tsconfig.scripts.json",
+    "verify:live": "tsx scripts/liveVerification.ts"
+  },
+  "dependencies": {
+    "@angular/common": "^22.1.1",
+    "@angular/core": "^22.1.1",
+    "@angular/platform-browser": "^22.1.1",
+    "@bridgenodelabs/firestore-models": "file:../..",
+    "firebase": "^12.11.0",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.1.3",
+    "@angular/cli": "^22.1.3",
+    "@angular/compiler": "^22.1.1",
+    "@angular/compiler-cli": "^22.1.1",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.20.5",
+    "typescript": "^6.0.2"
+  }
+}
